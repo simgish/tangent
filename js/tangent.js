@@ -15,7 +15,7 @@ var tangent = {
 
 	var fn = app.prototype = {};
 
-	fn.getElements = function() {
+	fn.boot = function() {
 		for (var c in components) {
 			this.findComponentsByName(c);
 		}
@@ -24,7 +24,6 @@ var tangent = {
 	fn.getComponents = function() {
 		for (var c in components) {
 			console.log(components[c]());
-			// components[c]().render();
 		}
 
 		return components;

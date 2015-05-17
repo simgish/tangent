@@ -13,3 +13,16 @@ app.component('rpm-panel', function() {
 		render: render
 	}
 });
+
+app.component('rpm-input', function() {
+
+	var render = function(element, attrs) {
+		element.innerHTML = '<input type="text" />';
+	}
+
+	return {
+		render: render
+	}
+});
+
+app.boot(); 
