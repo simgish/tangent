@@ -4,7 +4,8 @@ var tangent = {
 
 (function(tangent) {
 
-	var components = {};
+	var components = {},
+		controllers = {};
 
 	var app = function () {
 
@@ -19,15 +20,15 @@ var tangent = {
 		for (var c in components) {
 			this.findComponentsByName(c);
 		}
-	}
+	};
 
 	fn.getComponents = function() {
 		for (var c in components) {
 			console.log(components[c]());
-		}
+  		}
 
 		return components;
-	}
+	};
 
 	fn.registerComponent = function(name, func) {
 		var comp = {
@@ -36,7 +37,7 @@ var tangent = {
 		}
 
 		components[name] = func;
-	}	
+	};	
 
 	fn.findComponentsByName = function(name) {
 		var attrsObject = {};
@@ -51,11 +52,26 @@ var tangent = {
 				attrsObject[attrs[attr].nodeName] = attrs[attr].nodeValue;
 			}
 
-			components[name]().render(el, attrsObject);
+			var controller = controllers[components[name]().controller];
+
+			if (typeof controller !== 'function') {
+				controller = function(){};
+			}
+
+			components[name]().render(el, attrsObject, controller());
 		}
 
 		return componentArray;
-	}
+	};
+
+	fn.controller = function(name, func) {
+		var ctrl = {
+			name: name,
+			func: func
+		}
+
+		controllers[name] = func;
+	};
 
 	app.prototype.constructor = app;
 	tangent.app = app;
